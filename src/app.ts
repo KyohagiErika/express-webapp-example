@@ -5,7 +5,8 @@ import cors from 'cors';
 import http from 'http';
 import SocketIO from 'socket.io';
 import GlobalRouter from './global-router';
-import { IndexController } from './controllers';
+import IndexController from './controllers';
+import chalk from 'chalk';
 
 class AppSocketEvent {
     static readonly CONNECTION = 'connection';
@@ -51,7 +52,7 @@ class App {
         this.app.use(cors());
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: false }));
-        this.app.use('/', GlobalRouter.getGlobalRouter());
+        this.app.use(GlobalRouter.getGlobalRouter());
     }
 
     private configSocket(): void {
@@ -60,9 +61,11 @@ class App {
 
     listen(): void {
         this.server.listen(AppConfig.PORT, () => {
-            console.log(`Server started on port ${AppConfig.PORT}`);
+            console.log(chalk.green(`Server started on port ${chalk.yellow(AppConfig.PORT)}`));
         });
     }
 }
 
-export default new App(IndexController);
+export default new App(
+    IndexController
+);
