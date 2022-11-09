@@ -1,3 +1,6 @@
+import { DTO } from "../utils/dto";
+import { HttpStatusCode } from "../utils/enums";
+
 export default function Body(...dtos: DTO[]) {
     return function (target: any, key: string, descriptor: PropertyDescriptor) {
         const originalMethod = descriptor.value;
@@ -36,7 +39,7 @@ export default function Body(...dtos: DTO[]) {
             if (errors.length === 0) {
                 originalMethod.apply(this, args);
             } else {
-                res.status(400).send(errors);
+                res.status(HttpStatusCode.BadRequest).send(errors);
             }
         }
     }

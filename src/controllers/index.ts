@@ -3,6 +3,7 @@ import Expose from "../decorators/expose";
 import Body from "../decorators/body";
 import { Controller } from "../decorators/controller";
 import { Get, Post } from "../decorators/methods";
+import { HttpStatusCode } from "../utils/enums";
 
 @Controller('/')
 export default class IndexController {
@@ -10,7 +11,8 @@ export default class IndexController {
     @Get('/')
     @Expose()
     async hello(req: Request, res: Response, next: Function) {
-        res.send('Hello World!');
+        // throw new Error('Hello');
+        res.status(HttpStatusCode.OK).send('Hello World!');
     }
 
     @Post('/test')
@@ -28,6 +30,6 @@ export default class IndexController {
         }
     )
     async testPost(req: Request, res: Response, next: Function) {
-        res.send('Hello World!');
+        res.status(HttpStatusCode.OK).send('Hello World!');
     }
 }

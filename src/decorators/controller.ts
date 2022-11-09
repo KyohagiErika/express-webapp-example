@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import express from 'express';
+import errorHandler from '../error.handler';
 import GlobalRouter from '../global-router';
 
 function watch(req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -21,7 +22,7 @@ export function Controller(routePrefix: string) {
             if (path) {
                 switch (method) {
                     case 'get':
-                        router.get(`${path}`, watch, ...middlewares, routeHandler);
+                        router.get(`${path}`, watch, ...middlewares, errorHandler.bind(routeHandler));
                         console.log(`${chalk.blueBright(`GET ${path}`)} ${chalk.gray('Route')}`);
                         break;
                     case 'post':

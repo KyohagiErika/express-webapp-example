@@ -3,7 +3,7 @@ import chalk from "chalk";
 export default function Expose() {
     return function (target: any, key: string, descriptor: PropertyDescriptor) {
         const originalMethod = descriptor.value;
-        descriptor.value = function (...args: any[]) {
+        descriptor.value = async function (...args: any[]) {
             const req = args[0];
             console.log(chalk.redBright('Headers:'));
             console.log(chalk.cyan(JSON.stringify(req.headers, null, 2)));
@@ -15,7 +15,7 @@ export default function Expose() {
             console.log(chalk.cyan(JSON.stringify(req.query, null, 2)));
             console.log(chalk.redBright('Cookies:'));
             console.log(chalk.cyan(JSON.stringify(req.cookies, null, 2)));
-            originalMethod.apply(this, args);
+            await originalMethod.apply(this, args);
         }
     }
 }
